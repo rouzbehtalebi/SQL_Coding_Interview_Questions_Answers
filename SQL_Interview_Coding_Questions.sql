@@ -24,7 +24,7 @@ GROUP BY shipcountry
 HAVING SUM (Sales.OrderDetails.qty * (Sales.OrderDetails.unitprice * (1 - Sales.OrderDetails.discount)))>= 40000
 ORDER BY TotalAmount
 GO
--- 4- What are the Average, Count, and Summation of products (beverage and seafood) exported by shippers #2 AND #3 to the US?  
+-- 4- What are the Average, Count, and Summation of sales for each customer who bought beverage and seafood products and exported by shippers #2 AND #3 to the US?  
 SELECT 
 custid,
 categoryname,
