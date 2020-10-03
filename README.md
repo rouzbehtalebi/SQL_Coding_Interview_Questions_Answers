@@ -1,5 +1,5 @@
-# SQL_Coding_Interview_Questions_Answers
-This source contains some T-SQL questions and answer for coding interview
+# SQL and Pandas Coding Exercises with Answers
+This source contains some T-SQL and Pands questions and answers for a coding interview
 
 ### Sample database:
 This exercise uses the Microsoft TSQLV4 sample database.
