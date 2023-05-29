@@ -1,7 +1,8 @@
 USE [TSQLV4]
 GO
 
--- 1- How many customers does each employee  who is employed after 2014 have in total?
+-- 1- How many total customers does each employee hired after 2014 have?
+
 SELECT  firstname, lastname, HR.Employees.empid, COUNT(Sales.Orders.custid)  as NumberofCustomers 
 FROM
 HR.Employees JOIN Sales.Orders ON HR.Employees.empid = Sales.Orders.empid
@@ -11,20 +12,23 @@ ORDER BY NumberofCustomers DESC
 
 
 GO
--- 2- How much do the American, Francian, and German customers purchased in total after 2007?
+-- 2- What is the total purchase amount by American, French, and German customers after 2007?
+
 SELECT SUM (Sales.OrderDetails.qty * (Sales.OrderDetails.unitprice * (1 - Sales.OrderDetails.discount))) AS TotalAmount
 FROM [Sales].[OrderDetails] JOIN [Sales].[Orders] ON Sales.OrderDetails.orderid = Sales.Orders.orderid
 WHERE shipcountry IN ('France', 'Germany', 'USA') AND YEAR(orderdate) >= 2007
 
 GO
--- 3- What countries have purchased over 40000 USD?
+-- 3- Which countries have made purchases exceeding 40,000 USD?
+
 SELECT shipcountry, SUM (Sales.OrderDetails.qty * (Sales.OrderDetails.unitprice * (1 - Sales.OrderDetails.discount))) AS TotalAmount
 FROM [Sales].[OrderDetails] JOIN [Sales].[Orders] ON Sales.OrderDetails.orderid = Sales.Orders.orderid
 GROUP BY shipcountry
 HAVING SUM (Sales.OrderDetails.qty * (Sales.OrderDetails.unitprice * (1 - Sales.OrderDetails.discount)))>= 40000
 ORDER BY TotalAmount
 GO
--- 4- What are the Average, Count, and Summation of sales for each customer who bought beverage and seafood products and exported by shippers #2 AND #3 to the US?  
+-- 4- What are the average, count, and sum of sales for each customer who purchased beverage and seafood products, and had them exported by shippers #2 and #3 to the US?
+ 
 SELECT 
 custid,
 categoryname,
@@ -42,12 +46,14 @@ GROUP BY custid,categoryname
 
 GO
 
--- 5- What is the maximum order date for each cutomers?
+-- 5- What is the latest order date for each customer?
+
 SELECT custid , MAX(orderdate) as MaxOrderDate FROM [Sales].[Orders]
 GROUP BY custid
 GO
 
--- 6- What is the ranking of the cutomers by sales? mention in a separate column
+-- 6- What is the sales ranking of each customer? Please mention the ranking in a separate column.
+
 SELECT custid,
 SUM (Sales.OrderDetails.qty * (Sales.OrderDetails.unitprice * (1 - Sales.OrderDetails.discount))) AS TotalAmount,
 RANK() OVER(ORDER BY SUM (Sales.OrderDetails.qty * (Sales.OrderDetails.unitprice * (1 - Sales.OrderDetails.discount))) DESC) AS Rank
